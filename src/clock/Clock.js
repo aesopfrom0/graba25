@@ -15,10 +15,17 @@ function Clock() {
 
 		if (timeRemaining === 0) {
 			setTimeRemaining(initialGivenSeconds);
+			setIsStarted(false);
 		}
 
 		return () => clearInterval(timer);
 	}, [isStarted, timeRemaining]);
+
+	const formatTime = (timeInSeconds) => {
+		const minutes = Math.floor(timeInSeconds / 60);
+		const seconds = timeInSeconds % 60;
+		return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+	};
 
 	const handleStart = (event) => {
 		setIsStarted(true);
@@ -31,7 +38,7 @@ function Clock() {
 				<a>Short Break </a>
 				<a>Long Break</a>
 			</header>
-			<p className="Clock-main">{timeRemaining}</p>
+			<p className="Clock-main">{formatTime(timeRemaining)}</p>
 			<button onClick={handleStart}>Start</button>
 		</div>
 	);
