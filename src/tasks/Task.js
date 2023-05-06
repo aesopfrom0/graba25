@@ -1,17 +1,23 @@
-import { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
-
-const CREATE_TASK_QUERY = gql`
-    mutation CreateTask($task: CreateTaskInput!) {
-        createTask(task: $task) {
-            title
-        }
-    }
-`;
+import { useEffect, useState } from 'react';
+import { createTask, getTasks } from '../api/Graba-api';
 
 function Task() {
   const [showInput, setShotInput] = useState(false);
-  const [createTask] = useMutation(CREATE_TASK_QUERY);
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    async function fetchTasks() {
+      try {
+        const { data } = await getTasks();
+        setTasks(data);
+      } catch (error) {
+        console.error('Failed to get tasks:', error);
+      }
+    }
+
+    fetchTasks();
+  }, []);
+
   const addTask = () => {
     setShotInput(!showInput); // input 다시 숨기기 위해서
   };
@@ -22,11 +28,15 @@ function Task() {
     const taskInput = {
       title: formData.get('title'),
       userId: 1,
+      estAttempts: +formData.get('est-attempts'),
+      actAttempts: 0,
     };
 
     try {
-      const { data } = await createTask({ variables: { task: taskInput } });
+      const { data } = await createTask(taskInput);
       console.log('Task created:', data);
+      setShotInput(!showInput);
+      setTasks([...tasks, data]);
     } catch (error) {
       console.error('Failed to create task:', error);
     }
@@ -36,10 +46,20 @@ function Task() {
     <div className={Task.name}>
       <header className='Task-header'>
         <p>Tasks</p>
+        <hr />
+        <ul>
+          {tasks.map(task => (
+            <li key={task.id}>{task.title}</li>
+          ))}
+        </ul>
         <button onClick={addTask}>+</button>
       </header>
       {showInput && (<form onSubmit={handleInputSubmit}>
-        <input type='text' name='title' />
+        <input type='text' name='title' placeholder='What are you working on?' />
+        <br />
+        <input type='number' name='est-attempts' defaultValue='1' />
+        <br />
+        <button type={'submit'}>Save</button>
       </form>)}
     </div>
   );
