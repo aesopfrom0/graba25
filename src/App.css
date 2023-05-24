@@ -90,3 +90,34 @@
 input::placeholder {
     font-style: italic;
 }
+
+.task-list {
+    list-style-type: none;
+}
+
+.task-item {
+    display: flex;
+    /*align-items: center;*/
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eaeaea;
+    background-color: #FFFFFF;
+    border-radius: 6px;
+    color: black;
+}
+
+.task-item.finished {
+    background-color: #f7f7f7;
+}
+
+.task-item.finished span {
+    text-decoration: line-through;
+}
+
+.task-item input {
+    margin-right: 10px;
+}
+
+.task-item.checkbox :checked {
+    color: black;
+}

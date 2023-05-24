@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { createTask, getTasks } from '../api/Graba-api';
+import {createTask, getTasks, updateTask} from '../api/Graba-api';
 
 function Task() {
   const [showInput, setShotInput] = useState(false);
@@ -16,7 +16,7 @@ function Task() {
     }
 
     fetchTasks();
-  }, []);
+  }, [tasks]);
 
   const addTask = () => {
     setShotInput(!showInput); // input 다시 숨기기 위해서
@@ -42,14 +42,34 @@ function Task() {
     }
   };
 
+  const handleTaskFinish = async (taskId) => {
+    await Promise.all(tasks.map(async task => {
+      if(task.id === taskId) {
+        const result = await updateTask(taskId, !task.isFinished);
+        console.log(result);
+        return { ...task, isFinished: !task.isFinished }
+      } else {
+        return task;
+      }
+    }))
+  }
+
   return (
     <div className={Task.name}>
       <header className='Task-header'>
         <p>Tasks</p>
         <hr />
-        <ul>
+        <ul className='task-list'>
           {tasks.map(task => (
-            <li key={task.id}>{task.title}</li>
+            <li key={task.id} className={`task-item ${task.isFinished ? 'finished' : ''}`}>
+              <input
+                  type='checkbox'
+                  className='checkbox'
+                  checked={task.isFinished}
+                  onChange={() => handleTaskFinish(task.id)}
+              />
+              <span>{task.title}</span>
+            </li>
           ))}
         </ul>
         <button onClick={addTask}>+</button>

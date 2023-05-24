@@ -20,3 +20,13 @@ export async function getTasks() {
     return false;
   }
 }
+
+export async function updateTask(taskId, isFinished) {
+  try {
+    const result = await axios.patch(`${GRABA25_API_INFO.address}/tasks/${taskId}`, { isFinished });
+    return result;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}
