@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {createTask, getTasks, updateTask} from '../api/Graba-api';
+import { createTask, getTasks, updateTask } from '../api/Graba-api';
 
 function Task() {
   const [showInput, setShotInput] = useState(false);
@@ -15,8 +15,9 @@ function Task() {
       }
     }
 
+    // Fetch tasks only when the component mounts (initial load)
     fetchTasks();
-  }, [tasks]);
+  }, []);
 
   const addTask = () => {
     setShotInput(!showInput); // input 다시 숨기기 위해서
@@ -43,16 +44,18 @@ function Task() {
   };
 
   const handleTaskFinish = async (taskId) => {
-    await Promise.all(tasks.map(async task => {
-      if(task.id === taskId) {
-        const result = await updateTask(taskId, !task.isFinished);
-        console.log(result);
-        return { ...task, isFinished: !task.isFinished }
+    let isFinished;
+    setTasks(await Promise.all(tasks.map(async task => {
+      if (task.id === taskId) {
+        isFinished = !task.isFinished;
+        return { ...task, isFinished };
       } else {
         return task;
       }
-    }))
-  }
+    })));
+    const result = await updateTask(taskId, isFinished);
+    console.log(result);
+  };
 
   return (
     <div className={Task.name}>
@@ -63,10 +66,10 @@ function Task() {
           {tasks.map(task => (
             <li key={task.id} className={`task-item ${task.isFinished ? 'finished' : ''}`}>
               <input
-                  type='checkbox'
-                  className='checkbox'
-                  checked={task.isFinished}
-                  onChange={() => handleTaskFinish(task.id)}
+                type='checkbox'
+                className='checkbox'
+                checked={task.isFinished}
+                onChange={() => handleTaskFinish(task.id)}
               />
               <span>{task.title}</span>
             </li>
