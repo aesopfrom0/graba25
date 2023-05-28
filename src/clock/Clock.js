@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import { CLOCK_CONFIG } from '../config/dev-config';
 
 function Clock() {
-  const initialGivenSeconds = 5;
+  const initialGivenSeconds = CLOCK_CONFIG.pomodoroIntervalSeconds;
   const [isStarted, setIsStarted] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(initialGivenSeconds);
   const [activeTab, setActiveTab] = useState('pomodoro');
@@ -28,7 +29,7 @@ function Clock() {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const handleStart = (event) => {
+  const handleStart = () => {
     setIsStarted(true);
   };
 
@@ -38,7 +39,7 @@ function Clock() {
 
   return (
     <div className={Clock.name}>
-      <header className="Clock-header">
+      <header className='Clock-header'>
         <a
           className={activeTab === 'pomodoro' ? 'active' : ''}
           onClick={() => handleTabClick('pomodoro')}
@@ -58,7 +59,7 @@ function Clock() {
           Long Break
         </a>
       </header>
-      <p className="Clock-main">{formatTime(timeRemaining)}</p>
+      <p className='Clock-main'>{formatTime(timeRemaining)}</p>
       <button onClick={handleStart}>Start</button>
     </div>
   );

@@ -4,11 +4,13 @@ import { createTask, getTasks, updateTask } from '../api/Graba-api';
 function Task() {
   const [showInput, setShotInput] = useState(false);
   const [tasks, setTasks] = useState([]);
+  const [currentTaskId, setCurrentTaskId] = useState(null);
 
   useEffect(() => {
     async function fetchTasks() {
       try {
         const { data } = await getTasks();
+        console.log(data);
         setTasks(data);
       } catch (error) {
         console.error('Failed to get tasks:', error);
@@ -17,6 +19,13 @@ function Task() {
 
     // Fetch tasks only when the component mounts (initial load)
     fetchTasks();
+
+    // Find a task
+    const currentTask = tasks.find(task => task.isCurrentTask);
+    if (currentTaskId && currentTask) {
+      console.log(currentTask);
+      setCurrentTaskId(currentTask.id);
+    }
   }, []);
 
   const addTask = () => {
@@ -57,6 +66,22 @@ function Task() {
     console.log(result);
   };
 
+  const handleSetCurrentTask = async (taskId, event) => {
+    event.stopPropagation();
+
+    setCurrentTaskId(taskId);
+    console.log(taskId);
+    let isCurrentTask;
+    setTasks(await Promise.all(tasks.map(async task => {
+      if (task.id === taskId) {
+        isCurrentTask = !task.isCurrentTask;
+        return { ...task, isCurrentTask };
+      } else {
+        return task;
+      }
+    })));
+  };
+
   return (
     <div className={Task.name}>
       <header className='Task-header'>
@@ -64,7 +89,9 @@ function Task() {
         <hr />
         <ul className='task-list'>
           {tasks.map(task => (
-            <li key={task.id} className={`task-item ${task.isFinished ? 'finished' : ''}`}>
+            <li key={task.id}
+                className={`task-item ${task.isFinished ? 'finished' : ''} ${task.id === currentTaskId ? 'current-task' : ''}`}
+                onClick={(event) => handleSetCurrentTask(task.id, event)}>
               <input
                 type='checkbox'
                 className='checkbox'

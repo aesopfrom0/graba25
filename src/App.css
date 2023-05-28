@@ -104,6 +104,8 @@ input::placeholder {
     background-color: #FFFFFF;
     border-radius: 6px;
     color: black;
+    position: relative;
+    border-left: 6px solid transparent;
 }
 
 .task-item.finished {
@@ -114,10 +116,38 @@ input::placeholder {
     text-decoration: line-through;
 }
 
+.task-item.current-task {
+    border-left: 6px solid black;
+}
+
 .task-item input {
     margin-right: 10px;
 }
 
-.task-item.checkbox :checked {
-    color: black;
+/*.task-item.checkbox :checked {*/
+/*    color: black;*/
+/*}*/
+
+.current-task:before {
+    content: '';
+    top: 0;
+    left: 0;
+    width: 4px; /* Adjust the width as needed */
+    height: 100%;
+    background-color: black; /* Adjust the color as needed */
+}
+
+.task-stripe {
+    width: 5px;
+    height: 100%;
+    background-color: black;
+    position: absolute;
+    left: -5px;
+    top: 0;
+    /*opacity: 0;*/
+    /*transition: opacity 0.3s ease;*/
+}
+
+.task-stripe.active {
+    background-color: black;
 }
