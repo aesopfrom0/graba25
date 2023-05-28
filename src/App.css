@@ -151,3 +151,7 @@ input::placeholder {
 .task-stripe.active {
     background-color: black;
 }
+
+.current-task-detail {
+    color: #FFFFFF
+}

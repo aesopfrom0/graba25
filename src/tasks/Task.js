@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createTask, getTasks, updateTask } from '../api/Graba-api';
+import { isEqual } from 'lodash';
+import ActiveTask from './ActiveTask';
 
 function Task() {
   const [showInput, setShotInput] = useState(false);
@@ -10,8 +12,15 @@ function Task() {
     async function fetchTasks() {
       try {
         const { data } = await getTasks();
-        console.log(data);
-        setTasks(data);
+        if (tasks.length !== data.length) {
+          console.log(data);
+          setTasks(data);
+        } else {
+          if (!isEqual(tasks, data)) {
+            console.log(data);
+            setTasks(data);
+          }
+        }
       } catch (error) {
         console.error('Failed to get tasks:', error);
       }
@@ -19,14 +28,15 @@ function Task() {
 
     // Fetch tasks only when the component mounts (initial load)
     fetchTasks();
+  }, [tasks]);
 
-    // Find a task
-    const currentTask = tasks.find(task => task.isCurrentTask);
-    if (currentTaskId && currentTask) {
-      console.log(currentTask);
-      setCurrentTaskId(currentTask.id);
+  useEffect(() => {
+    if (tasks.length > 0 && !currentTaskId) {
+      const curTask = tasks.find(task => task.isCurrentTask);
+      console.log(curTask);
+      curTask && setCurrentTaskId(curTask.id);
     }
-  }, []);
+  });
 
   const addTask = () => {
     setShotInput(!showInput); // input 다시 숨기기 위해서
@@ -62,28 +72,31 @@ function Task() {
         return task;
       }
     })));
-    const result = await updateTask(taskId, isFinished);
-    console.log(result);
+    await updateTask(taskId, { isFinished });
   };
 
-  const handleSetCurrentTask = async (taskId, event) => {
+  async function handleSetCurrentTask(taskId, event) {
     event.stopPropagation();
 
+    const prevTaskId = currentTaskId;
     setCurrentTaskId(taskId);
     console.log(taskId);
     let isCurrentTask;
     setTasks(await Promise.all(tasks.map(async task => {
       if (task.id === taskId) {
-        isCurrentTask = !task.isCurrentTask;
+        isCurrentTask = true;
         return { ...task, isCurrentTask };
       } else {
         return task;
       }
     })));
-  };
+    await updateTask(prevTaskId, { isCurrentTask: false });
+    await updateTask(taskId, { isCurrentTask });
+  }
 
   return (
     <div className={Task.name}>
+      {currentTaskId && <ActiveTask {...tasks.find(task => task.id === currentTaskId)} />}
       <header className='Task-header'>
         <p>Tasks</p>
         <hr />

@@ -21,9 +21,9 @@ export async function getTasks() {
   }
 }
 
-export async function updateTask(taskId, isFinished) {
+export async function updateTask(taskId, updateDto) {
   try {
-    const result = await axios.patch(`${GRABA25_API_INFO.address}/tasks/${taskId}`, { isFinished });
+    const result = await axios.patch(`${GRABA25_API_INFO.address}/tasks/${taskId}`, updateDto);
     return result;
   } catch (e) {
     console.log(e);
