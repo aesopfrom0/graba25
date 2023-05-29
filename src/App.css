@@ -108,10 +108,6 @@ input::placeholder {
     border-left: 6px solid transparent;
 }
 
-.task-item.finished {
-    background-color: #f7f7f7;
-}
-
 .task-item.finished span {
     text-decoration: line-through;
 }
@@ -127,6 +123,40 @@ input::placeholder {
 /*.task-item.checkbox :checked {*/
 /*    color: black;*/
 /*}*/
+
+.custom-checkbox {
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-color: rgb(223, 223, 223);
+    border-right-color: rgb(223, 223, 223);
+    border-bottom-color: rgb(223, 223, 223);
+    border-left-color: rgb(223, 223, 223);
+    background-color: rgb(223, 223, 223);
+    margin-right: 10px;
+    border-radius: 50%;
+    color: gray;
+}
+
+.custom-checkbox:hover {
+    background-color: rgba(255, 255, 255, 0.61);
+}
+
+.custom-checkbox .finished {
+    background-color: rgb(186, 73, 73);
+    display: inline-block;
+    border-top-color: rgb(186, 73, 73);
+    color: black;
+    font-size: 12px;
+}
 
 .current-task:before {
     content: '';

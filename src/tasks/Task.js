@@ -62,37 +62,44 @@ function Task() {
     }
   };
 
-  const handleTaskFinish = async (taskId) => {
+  const handleTaskFinish = async (taskId, event) => {
+    event.stopPropagation();
+
     let isFinished;
-    setTasks(await Promise.all(tasks.map(async task => {
+    const updatedTasks = tasks.map(task => {
       if (task.id === taskId) {
         isFinished = !task.isFinished;
         return { ...task, isFinished };
       } else {
         return task;
       }
-    })));
+    });
+
+    setTasks(updatedTasks);
     await updateTask(taskId, { isFinished });
   };
 
-  async function handleSetCurrentTask(taskId, event) {
-    event.stopPropagation();
+  async function handleSetCurrentTask(taskId) {
+    if (taskId !== currentTaskId) {
+      const prevTaskId = currentTaskId;
+      setCurrentTaskId(taskId);
 
-    const prevTaskId = currentTaskId;
-    setCurrentTaskId(taskId);
-    console.log(taskId);
-    let isCurrentTask;
-    setTasks(await Promise.all(tasks.map(async task => {
-      if (task.id === taskId) {
-        isCurrentTask = true;
-        return { ...task, isCurrentTask };
-      } else {
-        return task;
-      }
-    })));
-    await updateTask(prevTaskId, { isCurrentTask: false });
-    await updateTask(taskId, { isCurrentTask });
+      const updatedTasks = tasks.map(task => {
+        if (task.id === prevTaskId) {
+          return { ...task, isCurrentTask: false };
+        } else if (task.id === taskId) {
+          return { ...task, isCurrentTask: true };
+        } else {
+          return task;
+        }
+      });
+
+      setTasks(updatedTasks);
+      await updateTask(prevTaskId, { isCurrentTask: false });
+      await updateTask(taskId, { isCurrentTask: true });
+    }
   }
+
 
   return (
     <div className={Task.name}>
@@ -105,12 +112,10 @@ function Task() {
             <li key={task.id}
                 className={`task-item ${task.isFinished ? 'finished' : ''} ${task.id === currentTaskId ? 'current-task' : ''}`}
                 onClick={(event) => handleSetCurrentTask(task.id, event)}>
-              <input
-                type='checkbox'
-                className='checkbox'
-                checked={task.isFinished}
-                onChange={() => handleTaskFinish(task.id)}
-              />
+              <div
+                className={`custom-checkbox ${task.isFinished ? 'finished' : ''}`}
+                onClick={(event) => handleTaskFinish(task.id, event)}>{task.isFinished ? '✔️' : ''}
+              </div>
               <span>{task.title}</span>
             </li>
           ))}
