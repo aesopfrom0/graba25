@@ -28,7 +28,7 @@ function Task() {
 
     // Fetch tasks only when the component mounts (initial load)
     fetchTasks();
-  }, [tasks]);
+  }, [showInput]);
 
   useEffect(() => {
     if (tasks.length > 0 && !currentTaskId) {
@@ -45,6 +45,7 @@ function Task() {
     event.preventDefault();
 
     const formData = new FormData(event.target);
+    console.log(formData);
     const taskInput = {
       title: formData.get('title'),
       userId: 1,

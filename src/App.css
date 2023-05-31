@@ -91,13 +91,17 @@ input::placeholder {
     font-style: italic;
 }
 
+.Task {
+
+}
+
 .task-list {
     list-style-type: none;
 }
 
 .task-item {
     display: flex;
-    /*align-items: center;*/
+    align-items: center;
     padding: 10px;
     margin-bottom: 10px;
     border-bottom: 1px solid #eaeaea;
@@ -106,16 +110,24 @@ input::placeholder {
     color: black;
     position: relative;
     border-left: 6px solid transparent;
+    font-size: 24px;
+    font-family: "Apple SD Gothic Neo";
+    font-weight: bold;
 }
 
 .task-item.finished span {
     text-decoration: line-through;
+    color: #afadad;
 }
 
 .task-item.current-task {
     border-left: 6px solid black;
     margin-bottom: 8px; /* 누른 느낌 주려고 */
     margin-top: 2px;
+}
+
+.task-item.current-task:hover {
+    border-left: 6px solid black;
 }
 
 .task-item input {
@@ -130,43 +142,26 @@ input::placeholder {
     display: inline-block;
     width: 26px;
     height: 26px;
-    border-top-width: 2px;
-    border-right-width: 2px;
-    border-bottom-width: 2px;
-    border-left-width: 2px;
-    border-top-style: solid;
-    border-right-style: solid;
-    border-bottom-style: solid;
-    border-left-style: solid;
-    border-top-color: rgb(223, 223, 223);
-    border-right-color: rgb(223, 223, 223);
-    border-bottom-color: rgb(223, 223, 223);
-    border-left-color: rgb(223, 223, 223);
-    background-color: rgb(223, 223, 223);
+    border-width: 3px;
+    border-style: solid;
+    border-color: #DFDFDFFF;
+    background-color: #DFDFDFFF;
     margin-right: 10px;
     border-radius: 50%;
     color: gray;
+}
+
+.custom-checkbox.finished {
+    /*display: inline-block;*/
+    font-size: 22px;
 }
 
 .custom-checkbox:hover {
     background-color: rgba(255, 255, 255, 0.61);
 }
 
-.custom-checkbox .finished {
-    background-color: rgb(186, 73, 73);
-    display: inline-block;
-    border-top-color: rgb(186, 73, 73);
-    color: black;
-    font-size: 12px;
-}
-
-.current-task:before {
-    content: '';
-    top: 0;
-    left: 0;
-    width: 4px; /* Adjust the width as needed */
-    height: 100%;
-    background-color: black; /* Adjust the color as needed */
+.task-item:hover {
+    border-left: 6px solid #DFDFDFFF;
 }
 
 .task-stripe {
