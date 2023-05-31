@@ -117,7 +117,10 @@ function Task() {
                 className={`custom-checkbox ${task.isFinished ? 'finished' : ''}`}
                 onClick={(event) => handleTaskFinish(task.id, event)}>{task.isFinished ? '✔️' : ''}
               </div>
-              <span>{task.title}</span>
+              <div className='task-details'>
+                <span>{task.title}</span>
+                <div className='attempts-number'>{task.actAttempts}/{task.estAttempts}</div>
+              </div>
             </li>
           ))}
         </ul>

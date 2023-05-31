@@ -182,3 +182,16 @@ input::placeholder {
 .current-task-detail {
     color: #FFFFFF
 }
+
+.task-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* 이걸 해야 attempts-number을 오른쪽에 표시할 수 있다.*/
+}
+
+.attempts-number {
+    margin-right: 10px; /* Adjust the margin as needed */
+    color: #969696;
+    letter-spacing: 2px;
+}
