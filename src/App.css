@@ -114,6 +114,8 @@ input::placeholder {
 
 .task-item.current-task {
     border-left: 6px solid black;
+    margin-bottom: 8px; /* 누른 느낌 주려고 */
+    margin-top: 2px;
 }
 
 .task-item input {
