@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { createTask, getTasks, updateTask } from '../api/Graba-api';
 import { isEqual } from 'lodash';
 import ActiveTask from './ActiveTask';
+import TaskDetail from './TaskDetail';
 
 function Task() {
   const [showInput, setShotInput] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [currentTaskId, setCurrentTaskId] = useState(null);
+  const [taskIdToShowDetail, setTaskIdToShowDetail] = useState(null);
 
   useEffect(() => {
     async function fetchTasks() {
@@ -101,6 +103,10 @@ function Task() {
     }
   }
 
+  async function handleShowTaskDetail(taskId) {
+    taskIdToShowDetail ? setTaskIdToShowDetail(null) : setTaskIdToShowDetail(taskId);
+  }
+
 
   return (
     <div className={Task.name}>
@@ -109,20 +115,25 @@ function Task() {
         <p>Tasks</p>
         <hr />
         <ul className='task-list'>
-          {tasks.map(task => (
-            <li key={task.id}
-                className={`task-item ${task.isFinished ? 'finished' : ''} ${task.id === currentTaskId ? 'current-task' : ''}`}
-                onClick={(event) => handleSetCurrentTask(task.id, event)}>
-              <div
-                className={`custom-checkbox ${task.isFinished ? 'finished' : ''}`}
-                onClick={(event) => handleTaskFinish(task.id, event)}>{task.isFinished ? '✔️' : ''}
-              </div>
-              <div className='task-details'>
-                <span>{task.title}</span>
-                <div className='attempts-number'>{task.actAttempts}/{task.estAttempts}</div>
-              </div>
-            </li>
-          ))}
+          {tasks.map(task => {
+              return task.id === taskIdToShowDetail ? <TaskDetail {...task} /> :
+                (
+                  <li key={task.id}
+                      className={`task-item ${task.isFinished ? 'finished' : ''} ${task.id === currentTaskId ? 'current-task' : ''}`}
+                      onClick={(event) => handleSetCurrentTask(task.id, event)}>
+                    <div
+                      className={`custom-checkbox ${task.isFinished ? 'finished' : ''}`}
+                      onClick={(event) => handleTaskFinish(task.id, event)}>{task.isFinished ? '✔️' : ''}
+                    </div>
+                    <div className='task-info'>
+                      <span>{task.title}</span>
+                      <div className='attempts-number'>{task.actAttempts}/{task.estAttempts}</div>
+                    </div>
+                    <button onClick={() => handleShowTaskDetail(task.id)}>•••</button>
+                  </li>
+                );
+            },
+          )}
         </ul>
         <button onClick={addTask}>+</button>
       </header>

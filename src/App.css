@@ -110,7 +110,7 @@ input::placeholder {
     color: black;
     position: relative;
     border-left: 6px solid transparent;
-    font-size: 24px;
+    font-size: 18px;
     font-family: "Apple SD Gothic Neo";
     font-weight: bold;
 }
@@ -183,15 +183,107 @@ input::placeholder {
     color: #FFFFFF
 }
 
-.task-details {
+.task-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%; /* 이걸 해야 attempts-number을 오른쪽에 표시할 수 있다.*/
+    width: 88%; /* 이걸 해야 attempts-number을 오른쪽에 표시할 수 있다.*/
 }
 
 .attempts-number {
     margin-right: 10px; /* Adjust the margin as needed */
     color: #969696;
     letter-spacing: 2px;
+}
+
+.edit-task-box {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    padding: 0;
+    box-shadow: 0 2px 6px #0000001a;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.edit-task-box.title {
+    font-weight: bold;
+}
+
+.edit-task-box input[type='text'] {
+    /*padding: 8px;*/
+    font-size: 20px;
+    border: none;
+    margin-bottom: 12px;
+}
+
+.edit-task-box > *:not(.edit-task-detail-action-bar) {
+    margin-left: 2vw; /* Adjust the indentation as needed */
+}
+
+.edit-task-box input[name='title'] {
+    font-weight: bold;
+}
+
+#act-est-pomodoros {
+    font-size: 16px;
+    margin-bottom: 0.5vh;
+}
+
+.task-number-input-box {
+    margin-bottom: 1vh;
+}
+
+.task-number-input-box input[type="number"] {
+    width: 48px; /* Adjust the width as desired */
+    height: 24px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.task-number-input-box > .est-attempts-input-box {
+    color: #969696;
+}
+
+
+/* 이건 어쩔 수 없다. */
+.task-number-input-box input[type="number"]::-webkit-inner-spin-button,
+.task-number-input-box input[type="number"]::-webkit-outer-spin-button {
+    width: 24px; /* Adjust the width as desired */
+    height: 24px; /* Adjust the height as desired */
+    background-color: #FFFFFF; /* Set the desired background color */
+    /* Add any additional styling properties */
+}
+
+
+.edit-task-detail-action-bar {
+    /*
+    If you want the .edit-task-detail-action-bar to fill the entire width of its container,
+    */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    height: 3vh;
+    background-color: #DFDFDF;
+}
+
+.edit-task-detail-action-bar button {
+    margin-left: 3vw;
+    border: none;
+    height: 1.5vh;
+    padding: 3px;
+    background-color: transparent;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.edit-task-detail-action-bar > .cancel-btn {
+    margin-left: 32vw;
 }
