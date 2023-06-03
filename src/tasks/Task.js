@@ -115,9 +115,9 @@ function Task() {
     setTasks(tasks.filter(task => task.id !== taskId));
 
     // target new current task id
-    tasks.length === 0 && setCurrentTaskId(null);
-    if (currentTaskId === taskId && tasks.length > 0) {
-      setCurrentTaskId(tasks.find(task => !task.isFinished));
+    (tasks.length) === 0 && setCurrentTaskId(null);
+    if (currentTaskId === taskId) {
+      setCurrentTaskId(tasks.find(task => !task.isFinished).id);
     }
     await GrabaApi.updateTask(taskId, { isArchived: true });
   }
