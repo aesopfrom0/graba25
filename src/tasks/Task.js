@@ -10,6 +10,7 @@ function Task() {
   const [tasks, setTasks] = useState([]);
   const [currentTaskId, setCurrentTaskId] = useState(null);
   const [taskIdToShowDetail, setTaskIdToShowDetail] = useState(null);
+  // const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
     async function fetchTasks() {
@@ -127,13 +128,15 @@ function Task() {
   }
 
   async function handleUpdateTask(taskId, event) {
+    event.preventDefault();
+
     const formData = new FormData(event.target);
-    console.log(formData);
-    const taskInput = {};
-    formData.get('title') && (taskInput.title = formData.get('title'));
-    formData.get('est-attempts') && (taskInput.estAttempts = +formData.get('est-attempts'));
-    formData.get('act-attempts') && (taskInput.actAttempts = +formData.get('act-attempts'));
-    if (isNeccessaryUpdate(taskInput, tasks.find(task => task.id = taskId))) {
+    const taskInput = {
+      title: formData.get('title'),
+      estAttempts: +formData.get('est-attempts'),
+      actAttempts: +formData.get('act-attempts'),
+    };
+    if (isNeccessaryUpdate(taskInput, tasks.find(task => task.id === taskId))) {
       const updatedTasks = tasks.map(task => {
         if (task.id === taskId) {
           return { ...task, ...taskInput };
@@ -141,12 +144,11 @@ function Task() {
           return task;
         }
       });
-      setTasks(updatedTasks);
-      await GrabaApi.updateTask(taskId, taskInput);
+      setTasks([...updatedTasks]);
     }
+    await GrabaApi.updateTask(taskId, taskInput);
     setTaskIdToShowDetail(null);
   }
-
 
   return (
     <div className='task'>
@@ -169,7 +171,7 @@ function Task() {
                     onClick={(event) => handleTaskFinish(task.id, event)}>{task.isFinished ? '✔️' : ''}
                   </div>
                   <div className='task-info'>
-                    <span>{task.title.length > 32 ? task.title.slice(0, 32).concat('...') : task.title}</span>
+                    <span>{task.title.length > 32 ? task.title.slice(0, 32).concat('...') : task.title}  </span>
                     <div className='attempts-number'>{task.actAttempts}/{task.estAttempts}</div>
                   </div>
                   <button onClick={(event) => handleShowTaskDetail(task.id, event)}>•••</button>
@@ -177,29 +179,28 @@ function Task() {
               );
           },
         )}
-        <button onClick={addTask}>➕ Add Task</button>
+        <button className='add-task-btn' onClick={addTask}>➕ Add Task</button>
       </ul>
-      {showInput && (<form className='edit-task-box' onSubmit={(event) => handleInputSubmit(event)}>
-        <input type='text' name='title' placeholder='What are you working on?' />
-        <br />
-        <input type='number' name='est-attempts' defaultValue='1' />
-        <br />
-        <button type='submit'>Save</button>
-      </form>)}
+      {showInput && (
+        <form className='edit-task-box' onSubmit={(event) => handleInputSubmit(event)}>
+          <input type='text' name='title' placeholder='What are you working on?' />
+          <br />
+          <input type='number' name='est-attempts' defaultValue='1' />
+          <br />
+          <button type='submit'>Save</button>
+        </form>
+      )}
     </div>
   );
 }
 
 function isNeccessaryUpdate(updateDto, task) {
-  console.log('-----------------------');
-  console.log(task);
-  console.log('-----------------------');
-  for (const [key, value] of updateDto.entries()) {
+  for (const [key, value] of Object.entries(updateDto)) {
     if (task[key] !== value) {
-      return false;
+      return true;
     }
   }
-  return true;
+  return false;
 }
 
 export default Task;

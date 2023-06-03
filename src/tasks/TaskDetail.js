@@ -1,8 +1,12 @@
 function TaskDetail({ task, onDelete, onCancel, onUpdate }) {
-  console.log(task);
+  async function handleUpdateTask(taskId, event) {
+    event.preventDefault();
+    await onUpdate(taskId, event);
+  }
+
   return (
-    <div className='edit-task-box'>
-      <form onSubmit={(event) => onUpdate(task.id, event)}>
+    <div>
+      <form className='edit-task-box' onSubmit={async (event) => await handleUpdateTask(task.id, event)}>
         <input type='text' name='title' defaultValue={task.title ?? ''} />
         <p id='act-est-pomodoros'>Act/Est Pomodoros</p>
         <div className='task-number-input-box'>
