@@ -45,7 +45,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 50px;
-    padding: 15px;
+    padding: 24px 48px;
 }
 
 .Clock-header {
@@ -81,12 +81,48 @@
 }
 
 .Clock-main {
-    font-size: 15vw;
+    font-size: 128px;
     font-weight: bold;
     color: #FFFFFF;
     margin-top: 0;
     margin-bottom: 20px;
 }
+
+.start-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 50px;
+    background-color: #ff616d;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+}
+
+.start-button:hover {
+    background-color: #ff4d5a;
+}
+
+.start-button:focus {
+    outline: none;
+}
+
+.start-button-text {
+    margin-right: 10px;
+}
+
+/* how to make an icon! */
+.start-button-icon {
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
 
 input::placeholder {
     font-style: italic;
@@ -128,12 +164,13 @@ input::placeholder {
 .add-task-btn {
     font-size: 18px;
     font-family: "Apple SD Gothic Neo";
-    font-weight: bold;
-    border: none;
+    color: #C88685;
+    font-weight: bolder;
+    border: dotted #E4C1C1;
     border-radius: 6px;
-    background-color: #FFFFFF;
+    background-color: #AC4343;
     width: 100%;
-    height: 2.4vh;
+    height: 3vh;
 }
 
 .task-item.finished span {
@@ -161,8 +198,8 @@ input::placeholder {
 
 .custom-checkbox {
     /*display: inline-block;*/
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     border-width: 3px;
     border-style: solid;
     border-color: #DFDFDFFF;
@@ -174,7 +211,7 @@ input::placeholder {
 
 .custom-checkbox.finished {
     /*display: inline-block;*/
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .custom-checkbox:hover {
