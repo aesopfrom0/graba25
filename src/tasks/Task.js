@@ -1,38 +1,12 @@
 import { useEffect, useState } from 'react';
-
-import { isEqual } from 'lodash';
 import ActiveTask from './ActiveTask';
 import TaskDetail from './TaskDetail';
 import { GrabaApi } from '../api/Graba-api';
 
-function Task() {
+function Task({ tasks, onCurrentTask, onSetTasks }) {
   const [showInput, setShotInput] = useState(false);
-  const [tasks, setTasks] = useState([]);
   const [currentTaskId, setCurrentTaskId] = useState(null);
   const [taskIdToShowDetail, setTaskIdToShowDetail] = useState(null);
-  // const [updated, setUpdated] = useState(false);
-
-  useEffect(() => {
-    async function fetchTasks() {
-      try {
-        const { data } = await GrabaApi.getTasks();
-        if (tasks.length !== data.length) {
-          console.log(data);
-          setTasks(data);
-        } else {
-          if (!isEqual(tasks, data)) {
-            console.log(data);
-            setTasks(data);
-          }
-        }
-      } catch (error) {
-        console.error('Failed to get tasks:', error);
-      }
-    }
-
-    // Fetch tasks only when the component mounts (initial load)
-    fetchTasks();
-  }, []);
 
   useEffect(() => {
     if (tasks.length > 0 && !currentTaskId) {
@@ -41,6 +15,12 @@ function Task() {
       curTask && setCurrentTaskId(curTask.id);
     }
   });
+
+  useEffect(() => {
+    console.log('임시야 임시');
+    console.log(currentTaskId);
+    onCurrentTask(tasks.find(task => task.id === currentTaskId));
+  }, [currentTaskId]);
 
   const addTask = () => {
     setShotInput(!showInput); // input 다시 숨기기 위해서
@@ -61,7 +41,7 @@ function Task() {
       console.log('Task created:', data.message);
       if (data.ok) {
         setShotInput(!showInput);
-        setTasks([...tasks, { ...taskInput, id: data.message }]);
+        onSetTasks([...tasks, { ...taskInput, id: data.message }]);
       }
     } catch (error) {
       console.error('Failed to create task:', error);
@@ -81,7 +61,7 @@ function Task() {
       }
     });
 
-    setTasks(updatedTasks);
+    onSetTasks(updatedTasks);
     await GrabaApi.updateTask(taskId, { isFinished });
   };
 
@@ -100,7 +80,7 @@ function Task() {
         }
       });
 
-      setTasks(updatedTasks);
+      onSetTasks(updatedTasks);
       await GrabaApi.updateTask(prevTaskId, { isCurrentTask: false });
       await GrabaApi.updateTask(taskId, { isCurrentTask: true });
     }
@@ -113,7 +93,7 @@ function Task() {
 
   async function handleDeleteTask(taskId) {
     setTaskIdToShowDetail(null);
-    setTasks(tasks.filter(task => task.id !== taskId));
+    onSetTasks(tasks.filter(task => task.id !== taskId));
 
     // target new current task id
     (tasks.length) === 0 && setCurrentTaskId(null);
@@ -144,7 +124,7 @@ function Task() {
           return task;
         }
       });
-      setTasks([...updatedTasks]);
+      onSetTasks([...updatedTasks]);
     }
     await GrabaApi.updateTask(taskId, taskInput);
     setTaskIdToShowDetail(null);

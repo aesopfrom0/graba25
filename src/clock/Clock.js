@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { CLOCK_CONFIG } from '../config/dev-config';
 
-function Clock() {
+function Clock({ onTimeup }) {
   const initialGivenSeconds = CLOCK_CONFIG.pomodoroIntervalSeconds;
   const [isStarted, setIsStarted] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(initialGivenSeconds);
@@ -18,6 +18,7 @@ function Clock() {
     if (timeRemaining === 0) {
       setTimeRemaining(initialGivenSeconds);
       setIsStarted(false);
+      onTimeup();
     }
 
     return () => clearInterval(timer);
@@ -60,7 +61,10 @@ function Clock() {
         </a>
       </header>
       <p className='Clock-main'>{formatTime(timeRemaining)}</p>
-      <button onClick={handleStart}>Start</button>
+      <button className='start-button' onClick={handleStart}>
+        <span className='start-button-text'>Start</span>
+        <span className='start-button-icon'></span>
+      </button>
     </div>
   );
 }
