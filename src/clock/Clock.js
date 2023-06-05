@@ -16,9 +16,7 @@ function Clock({ onTimeup }) {
     }
 
     if (timeRemaining === 0) {
-      setTimeRemaining(initialGivenSeconds);
-      setIsStarted(false);
-      onTimeup();
+      handleTimeUp();
     }
 
     return () => clearInterval(timer);
@@ -31,16 +29,22 @@ function Clock({ onTimeup }) {
   };
 
   const handleStart = () => {
-    setIsStarted(true);
+    setIsStarted(!isStarted);
   };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+  const handleTimeUp = () => {
+    setTimeRemaining(initialGivenSeconds);
+    setIsStarted(!isStarted);
+    onTimeup();
+  };
+
   return (
-    <div className={Clock.name}>
-      <header className='Clock-header'>
+    <div className="clock">
+      <header className="clock-header">
         <a
           className={activeTab === 'pomodoro' ? 'active' : ''}
           onClick={() => handleTabClick('pomodoro')}
@@ -60,11 +64,18 @@ function Clock({ onTimeup }) {
           Long Break
         </a>
       </header>
-      <p className='Clock-main'>{formatTime(timeRemaining)}</p>
-      <button className='start-button' onClick={handleStart}>
-        <span className='start-button-text'>Start</span>
-        <span className='start-button-icon'></span>
-      </button>
+      <p className="clock-main">{formatTime(timeRemaining)}</p>
+      <div className="clock-action">
+        <button className="start-button" onClick={handleStart}>
+          <span className="start-button-text">{isStarted ? 'Pause' : 'Start'}</span>
+          <span>{isStarted ? '🁢🁢' : '▶︎'}</span>
+        </button>
+        {isStarted && (
+          <button className="fast-forward-button-icon" onClick={handleTimeUp}>
+            ⇥
+          </button>
+        )}
+      </div>
     </div>
   );
 }

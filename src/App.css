@@ -38,7 +38,7 @@
     }
 }
 
-.Clock {
+.clock {
     background-color: #C05B5C;
     display: flex;
     flex-direction: column;
@@ -48,7 +48,7 @@
     padding: 24px 48px;
 }
 
-.Clock-header {
+.clock-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -57,7 +57,7 @@
     margin-bottom: 5px;
 }
 
-.Clock-header a {
+.clock-header a {
     color: #FFFFFF;
     border-radius: 3px;
     text-decoration: none;
@@ -72,23 +72,43 @@
     background-color: #A44D4E;
 }
 
-.Clock-header a:not(:last-child) {
+.clock-header a:not(:last-child) {
     margin-right: 12px;
 }
 
-.Clock-header a:hover {
+.clock-header a:hover {
     border-bottom: 2px solid #BA4949;
 }
 
-.Clock-main {
+.clock-main {
     font-size: 128px;
     font-weight: bold;
     color: #FFFFFF;
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
-.start-button {
+.clock-action {
+    display: flex;
+    align-items: center;
+    /*position: relative;*/
+    /*justify-content: center;*/
+
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+}
+
+.clock-action button:first-child {
+    /*margin-right: auto;*/
+    /*position: absolute;*/
+    /*left: 50%;*/
+    /*transform: translateX(-50%);*/
+    align-items: center;
+}
+
+.clock-action button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -96,11 +116,13 @@
     border-radius: 50px;
     background-color: #ff616d;
     color: #fff;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     text-transform: uppercase;
     border: none;
     cursor: pointer;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .start-button:hover {
@@ -117,11 +139,42 @@
 
 /* how to make an icon! */
 .start-button-icon {
-    width: 10px;
-    height: 10px;
+    width: 24px;
+    height: 24px;
     background-color: #fff;
     border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    /*transform: rotate(-90deg);*/
 }
+
+.fast-forward-button-icon {
+    margin-left: 1vw;
+    border: none;
+    background-color: transparent;
+    padding: 3px;
+}
+
+/*.start-button-icon::before {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, -50%);*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*    border-top: 8px solid transparent;*/
+/*    border-bottom: 8px solid transparent;*/
+/*    border-left: 12px solid #000;*/
+/*}*/
+
+.pause-button-icon {
+    width: 24px;
+    height: 24px;
+}
+
+
+
 
 
 input::placeholder {
@@ -353,4 +406,3 @@ input::placeholder {
 /*    padding: 8px;*/
 /*    margin-bottom: 12px;*/
 /*}*/
-
