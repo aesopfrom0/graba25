@@ -191,6 +191,10 @@ input::placeholder {
 
 .task-list {
     list-style-type: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-right: 0;
+    width: 446px;
 }
 
 .task-list > .task-item {
@@ -207,7 +211,7 @@ input::placeholder {
     font-size: 16px;
     font-family: "Apple SD Gothic Neo";
     font-weight: bold;
-    width: 400px;
+
     height: 2.4vh;
 }
 
@@ -289,8 +293,15 @@ input::placeholder {
 
 .current-task-detail {
     color: #FFFFFF;
-    font-size: 18px;
+    font-size: 20px;
     font-family: "Apple SD Gothic Neo";
+    /*align-items: center;*/
+    /*padding-left: 10px;*/
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    width: 466px; /* Set the width to 100% of the parent container */
+    word-wrap: break-word; /* Enable word wrapping */
 }
 
 .task-info {
