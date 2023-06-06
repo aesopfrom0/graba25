@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import ActiveTask from './ActiveTask';
 import TaskDetail from './TaskDetail';
 import { GrabaApi } from '../api/Graba-api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import ClearTask from './ClearTask';
 
 function Task({ tasks, onCurrentTask, onSetTasks }) {
   const [showInput, setShotInput] = useState(false);
@@ -135,8 +138,9 @@ function Task({ tasks, onCurrentTask, onSetTasks }) {
       {currentTaskId && <ActiveTask {...tasks.find(task => task.id === currentTaskId)} />}
       <header className='task-header'>
         <span>Tasks</span>
-        <hr />
+        <ClearTask />
       </header>
+      <hr />
       <ul className='task-list'>
         {tasks.map(task => {
             return task.id === taskIdToShowDetail ?
@@ -151,10 +155,13 @@ function Task({ tasks, onCurrentTask, onSetTasks }) {
                     onClick={(event) => handleTaskFinish(task.id, event)}>{task.isFinished ? '✔️' : ''}
                   </div>
                   <div className='task-info'>
-                    <span>{task.title.length > 32 ? task.title.slice(0, 32).concat('...') : task.title}  </span>
+                    <span>{task.title.length > 36 ? task.title.slice(0, 36).concat('...') : task.title}  </span>
                     <div className='attempts-number'>{task.actAttempts}/{task.estAttempts}</div>
                   </div>
-                  <button onClick={(event) => handleShowTaskDetail(task.id, event)}>•••</button>
+                  <button className='toolbox-button' onClick={(event) => handleShowTaskDetail(task.id, event)}>
+                    <FontAwesomeIcon icon={faEllipsisV} />
+                  </button>
+
                 </li>
               );
           },
