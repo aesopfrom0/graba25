@@ -174,9 +174,6 @@
 }
 
 
-
-
-
 input::placeholder {
     font-style: italic;
 }
@@ -207,7 +204,7 @@ input::placeholder {
     color: black;
     position: relative;
     border-left: 6px solid transparent;
-    font-size: 18px;
+    font-size: 16px;
     font-family: "Apple SD Gothic Neo";
     font-weight: bold;
     width: 400px;
@@ -215,7 +212,7 @@ input::placeholder {
 }
 
 .add-task-btn {
-    font-size: 18px;
+    font-size: 16px;
     font-family: "Apple SD Gothic Neo";
     color: #C88685;
     font-weight: bolder;
@@ -251,8 +248,8 @@ input::placeholder {
 
 .custom-checkbox {
     /*display: inline-block;*/
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border-width: 3px;
     border-style: solid;
     border-color: #DFDFDFFF;
@@ -264,7 +261,7 @@ input::placeholder {
 
 .custom-checkbox.finished {
     /*display: inline-block;*/
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .custom-checkbox:hover {
@@ -291,7 +288,9 @@ input::placeholder {
 }
 
 .current-task-detail {
-    color: #FFFFFF
+    color: #FFFFFF;
+    font-size: 18px;
+    font-family: "Apple SD Gothic Neo";
 }
 
 .task-info {
