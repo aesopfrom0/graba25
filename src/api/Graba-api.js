@@ -33,4 +33,17 @@ export class GrabaApi {
       return false;
     }
   }
+
+  static async archiveTasks(tasksToBeArchived) {
+    try {
+      const result = await axios.patch(
+        `${GRABA25_API_INFO.address}/tasks/archive`,
+        tasksToBeArchived,
+      );
+      return result;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  }
 }

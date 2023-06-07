@@ -13,7 +13,7 @@ function Task({ tasks, onCurrentTask, onSetTasks }) {
 
   useEffect(() => {
     if (tasks.length > 0 && !currentTaskId) {
-      const curTask = tasks.find(task => task.isCurrentTask);
+      const curTask = tasks.find((task) => task.isCurrentTask);
       console.log(curTask);
       curTask && setCurrentTaskId(curTask.id);
     }
@@ -22,7 +22,7 @@ function Task({ tasks, onCurrentTask, onSetTasks }) {
   useEffect(() => {
     console.log('임시야 임시');
     console.log(currentTaskId);
-    onCurrentTask(tasks.find(task => task.id === currentTaskId));
+    onCurrentTask(tasks.find((task) => task.id === currentTaskId));
   }, [currentTaskId]);
 
   const addTask = () => {
@@ -55,7 +55,7 @@ function Task({ tasks, onCurrentTask, onSetTasks }) {
     event.stopPropagation();
 
     let isFinished;
-    const updatedTasks = tasks.map(task => {
+    const updatedTasks = tasks.map((task) => {
       if (task.id === taskId) {
         isFinished = !task.isFinished;
         return { ...task, isFinished };
@@ -73,7 +73,7 @@ function Task({ tasks, onCurrentTask, onSetTasks }) {
       const prevTaskId = currentTaskId;
       setCurrentTaskId(taskId);
 
-      const updatedTasks = tasks.map(task => {
+      const updatedTasks = tasks.map((task) => {
         if (task.id === prevTaskId) {
           return { ...task, isCurrentTask: false };
         } else if (task.id === taskId) {
@@ -96,12 +96,12 @@ function Task({ tasks, onCurrentTask, onSetTasks }) {
 
   async function handleDeleteTask(taskId) {
     setTaskIdToShowDetail(null);
-    onSetTasks(tasks.filter(task => task.id !== taskId));
+    onSetTasks(tasks.filter((task) => task.id !== taskId));
 
     // target new current task id
-    (tasks.length) === 0 && setCurrentTaskId(null);
+    tasks.length === 0 && setCurrentTaskId(null);
     if (currentTaskId === taskId) {
-      setCurrentTaskId(tasks.find(task => !task.isFinished).id);
+      setCurrentTaskId(tasks.find((task) => !task.isFinished).id);
     }
     await GrabaApi.updateTask(taskId, { isArchived: true });
   }
@@ -119,8 +119,13 @@ function Task({ tasks, onCurrentTask, onSetTasks }) {
       estAttempts: +formData.get('est-attempts'),
       actAttempts: +formData.get('act-attempts'),
     };
-    if (isNeccessaryUpdate(taskInput, tasks.find(task => task.id === taskId))) {
-      const updatedTasks = tasks.map(task => {
+    if (
+      isNeccessaryUpdate(
+        taskInput,
+        tasks.find((task) => task.id === taskId),
+      )
+    ) {
+      const updatedTasks = tasks.map((task) => {
         if (task.id === taskId) {
           return { ...task, ...taskInput };
         } else {
@@ -133,48 +138,87 @@ function Task({ tasks, onCurrentTask, onSetTasks }) {
     setTaskIdToShowDetail(null);
   }
 
+  async function archiveTasks(isFinished = true) {
+    console.log(`isFinished: ${isFinished}`);
+    const newTasks = isFinished
+      ? tasks.map((task) => {
+          return task.isFinished ? { ...task, isArchived: true } : task;
+        })
+      : tasks.map((task) => ({ ...task, isArchived: true }));
+    const tasksToBeShown = [];
+    const tasksToBeArchived = [];
+    newTasks.forEach((task) => {
+      if (task.isArchived) {
+        tasksToBeArchived.push({ id: task.id, isArchived: task.isArchived });
+      } else {
+        tasksToBeShown.push(task);
+      }
+    });
+    onSetTasks(tasksToBeShown);
+    console.log(tasksToBeArchived);
+    await GrabaApi.archiveTasks(tasksToBeArchived);
+  }
+
   return (
-    <div className='task'>
-      {currentTaskId && <ActiveTask {...tasks.find(task => task.id === currentTaskId)} />}
-      <header className='task-header'>
+    <div className="task">
+      {currentTaskId && <ActiveTask {...tasks.find((task) => task.id === currentTaskId)} />}
+      <header className="task-header">
         <span>Tasks</span>
-        <ClearTask />
+        <ClearTask onArchive={archiveTasks} />
       </header>
       <hr />
-      <ul className='task-list'>
-        {tasks.map(task => {
-            return task.id === taskIdToShowDetail ?
-              <TaskDetail key={task.id} task={task} onDelete={handleDeleteTask} onCancel={handleCancelTask}
-                          onUpdate={handleUpdateTask} /> :
-              (
-                <li key={task.id}
-                    className={`task-item ${task.isFinished ? 'finished' : ''} ${task.id === currentTaskId ? 'current-task' : ''}`}
-                    onClick={(event) => handleSetCurrentTask(task.id, event)}>
-                  <div
-                    className={`custom-checkbox ${task.isFinished ? 'finished' : ''}`}
-                    onClick={(event) => handleTaskFinish(task.id, event)}>{task.isFinished ? '✔️' : ''}
-                  </div>
-                  <div className='task-info'>
-                    <span>{task.title.length > 36 ? task.title.slice(0, 36).concat('...') : task.title}  </span>
-                    <div className='attempts-number'>{task.actAttempts}/{task.estAttempts}</div>
-                  </div>
-                  <button className='toolbox-button' onClick={(event) => handleShowTaskDetail(task.id, event)}>
-                    <FontAwesomeIcon icon={faEllipsisV} />
-                  </button>
-
-                </li>
-              );
-          },
-        )}
-        <button className='add-task-btn' onClick={addTask}>➕ Add Task</button>
+      <ul className="task-list">
+        {tasks.map((task) => {
+          return task.id === taskIdToShowDetail ? (
+            <TaskDetail
+              key={task.id}
+              task={task}
+              onDelete={handleDeleteTask}
+              onCancel={handleCancelTask}
+              onUpdate={handleUpdateTask}
+            />
+          ) : (
+            <li
+              key={task.id}
+              className={`task-item ${task.isFinished ? 'finished' : ''} ${
+                task.id === currentTaskId ? 'current-task' : ''
+              }`}
+              onClick={(event) => handleSetCurrentTask(task.id, event)}
+            >
+              <div
+                className={`custom-checkbox ${task.isFinished ? 'finished' : ''}`}
+                onClick={(event) => handleTaskFinish(task.id, event)}
+              >
+                {task.isFinished ? '✔️' : ''}
+              </div>
+              <div className="task-info">
+                <span>
+                  {task.title.length > 36 ? task.title.slice(0, 36).concat('...') : task.title}{' '}
+                </span>
+                <div className="attempts-number">
+                  {task.actAttempts}/{task.estAttempts}
+                </div>
+              </div>
+              <button
+                className="toolbox-button"
+                onClick={(event) => handleShowTaskDetail(task.id, event)}
+              >
+                <FontAwesomeIcon icon={faEllipsisV} />
+              </button>
+            </li>
+          );
+        })}
+        <button className="add-task-btn" onClick={addTask}>
+          ➕ Add Task
+        </button>
       </ul>
       {showInput && (
-        <form className='edit-task-box' onSubmit={(event) => handleInputSubmit(event)}>
-          <input type='text' name='title' placeholder='What are you working on?' />
+        <form className="edit-task-box" onSubmit={(event) => handleInputSubmit(event)}>
+          <input type="text" name="title" placeholder="What are you working on?" />
           <br />
-          <input type='number' name='est-attempts' defaultValue='1' />
+          <input type="number" name="est-attempts" defaultValue="1" />
           <br />
-          <button type='submit'>Save</button>
+          <button type="submit">Save</button>
         </form>
       )}
     </div>
