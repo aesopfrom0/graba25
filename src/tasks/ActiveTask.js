@@ -1,8 +1,8 @@
-function ActiveTask(task) {
+function ActiveTask({ task }) {
   return (
     <div className='current-task-detail'>
-      <p>#{task.actAttempts + 1}</p>
-      <p>{task.title}</p>
+      <p>#{task ? task.actAttempts + 1 : 0}</p>
+      <p>{task?.title ?? 'Time to focus'}</p>
     </div>
   );
 }
