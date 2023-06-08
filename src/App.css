@@ -299,9 +299,9 @@ input::placeholder {
 .add-task-btn {
     font-size: 18px;
     font-family: "Apple SD Gothic Neo";
-    color: #d3b6b6;
+    color: #EDD3D2;
     font-weight: bold;
-    border: dotted #E4C1C1;
+    border: dotted 1px #EDD3D2;
     border-radius: 6px;
     background-color: #AC4343;
     width: 100%;
@@ -533,4 +533,34 @@ input::placeholder {
     padding-bottom: 12px;
     box-sizing: border-box;
     padding-top: 0;
+}
+
+.time-info {
+    background-color: #C15E5E;
+    width: 446px;
+    height: 3.6vh;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 15px;
+    color: #EDD3D2;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-top: #F3E1E1 solid 1px;
+}
+
+.time-info .number {
+    font-size: 22px;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    color: #FFFFFF;
+}
+
+.time-info > div > span:nth-child(5) {
+    margin-left: 12px;
+}
+
+.time-info > div > span:nth-child(7) {
+    margin-left: 3px;
 }

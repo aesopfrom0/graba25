@@ -4,8 +4,10 @@ import Task from './tasks/Task';
 import { GrabaApi } from './api/Graba-api';
 import { useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
+import { CLOCK_CONFIG } from './config/dev-config';
 
 function App() {
+  const initialGivenSeconds = CLOCK_CONFIG.pomodoroIntervalSeconds;
   const [currentTask, setCurrentTask] = useState(null);
   const [tasks, setTasks] = useState([]);
 
@@ -49,20 +51,36 @@ function App() {
     fetchTasks();
   }, []);
 
+  const timeInfo = () => {
+    const pomosInfo = tasks.reduce((acc, cur) => ({
+      actPomos: acc.actPomos + cur.actAttempts,
+      estPomos: acc.estPomos + cur.estAttempts,
+    }), { actPomos: 0, estPomos: 0 });
+    const duration = (pomosInfo.estPomos - pomosInfo.actPomos) * initialGivenSeconds * 1000; // milliseconds
+    const estFinishAt = new Date(Date.now() + duration);
+
+    return {
+      ...pomosInfo,
+      estFinishAt: `${estFinishAt.getHours()}:${estFinishAt.getMinutes()}`,
+      duration: `(${(duration / (1000 * 60 * 60)).toFixed(1)}h)`,
+    };
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className='App'>
+      <header className='App-header'>
         {/*<img src={logo} className="App-logo" alt="logo" />*/}
         <p>GRABA 25</p>
-        <div className="main-box">
+        <div className='main-box'>
           <Clock onTimeup={handleTimeUp} />
-          <Task tasks={tasks} onCurrentTask={handleCurrentTask} onSetTasks={handleSetTasks} />
+          <Task tasks={tasks} onCurrentTask={handleCurrentTask} onSetTasks={handleSetTasks}
+                onTimeInfo={timeInfo()} />
         </div>
         <a
-          className="App-link"
-          href="https://aesop.oopy.io"
-          target="_blank"
-          rel="noopener noreferrer"
+          className='App-link'
+          href='https://aesop.oopy.io'
+          target='_blank'
+          rel='noopener noreferrer'
         >
           개발자 블로그
         </a>

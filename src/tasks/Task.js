@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import ClearTask from './ClearTask';
 
-function Task({ tasks, onCurrentTask, onSetTasks }) {
+function Task({ tasks, onCurrentTask, onSetTasks, onTimeInfo }) {
   const [showInput, setShotInput] = useState(false);
   const [currentTaskId, setCurrentTaskId] = useState(null);
   const [taskIdToShowDetail, setTaskIdToShowDetail] = useState(null);
@@ -227,6 +227,17 @@ function Task({ tasks, onCurrentTask, onSetTasks }) {
           <button type='submit'>Save</button>
         </form>
       )}
+      <div className='time-info'>
+        <div>
+          <span>Pomos: </span>
+          <span className='number'>{onTimeInfo.actAttempts ?? 0}</span>
+          <span>/</span>
+          <span className='number'>{onTimeInfo.estAttempts ?? 0}</span>
+          <span>Finish At: </span>
+          <span className='number'>{onTimeInfo.estFinishAt ?? '--:--'}</span>
+          <span>{onTimeInfo.duration ?? '(0h)'}</span>
+        </div>
+      </div>
     </div>
   );
 }
