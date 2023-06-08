@@ -293,7 +293,6 @@ input::placeholder {
     font-size: 16px;
     font-family: "Apple SD Gothic Neo";
     font-weight: bold;
-
     height: 2.4vh;
 }
 
@@ -517,4 +516,15 @@ input::placeholder {
     color: #ffffff;
     padding: 10px;
     border-radius: 2px;
+}
+
+.main-box {
+    background-color: rgb(186, 73, 73);
+    min-height: 100vh;
+    width: 466px;
+    color: white;
+    transition: background-color 0.5s ease-in-out 0s;
+    padding-bottom: 12px;
+    box-sizing: border-box;
+    padding-top: 0;
 }
