@@ -1,6 +1,18 @@
 .App {
     text-align: center;
     /*max-width: 600px;*/
+    background-color: #BA4949;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+#app-shortBreak {
+    background-color: #38858A;
 }
 
 .App-logo {
@@ -14,16 +26,16 @@
     /*}*/
 }
 
-.App-header {
-    background-color: #BA4949;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
+/*.App-header {*/
+/*    background-color: #BA4949;*/
+/*    min-height: 100vh;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    font-size: calc(10px + 2vmin);*/
+/*    color: white;*/
+/*}*/
 
 .App-link {
     color: #61dafb;
@@ -38,8 +50,19 @@
     }
 }
 
-.clock {
+.clock-pomodoro {
     background-color: #C05B5C;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    padding: 24px 48px;
+    border-radius: 6px;
+}
+
+.clock-shortBreak {
+    background-color: #509397;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -69,8 +92,12 @@
     transition: all 0.2s ease-in-out;
 }
 
-.active {
+.pomodoro {
     background-color: #A44D4E;
+}
+
+.short-break {
+    background-color: #447F82;
 }
 
 .clock-header a:not(:last-child) {
@@ -79,6 +106,10 @@
 
 .clock-header a:hover {
     border-bottom: 2px solid #BA4949;
+}
+
+#clock-header-shortBreak a:hover {
+    border-bottom: 2px solid #38858A;
 }
 
 .clock-main {
@@ -126,6 +157,19 @@
     margin-bottom: 10px;
 }
 
+#clock-action-shortBreak button {
+    background-color: #FFFFFF;
+    color: #38858A;
+}
+
+#start-button-shortBreak {
+    background-color: #3F7578FF;
+}
+
+#start-button-shortBreak:hover {
+    background-color: #447F82;
+}
+
 .start-button:hover {
     background-color: #ff4d5a;
 }
@@ -156,6 +200,14 @@
     padding: 3px;
 }
 
+#fast-forward-button-shortBreak {
+    background-color: #3F7578FF;
+}
+
+#fast-forward-button-shortBreak:hover {
+    background-color: #447F82;
+}
+
 /*.start-button-icon::before {*/
 /*    content: "";*/
 /*    position: absolute;*/
@@ -179,8 +231,13 @@ input::placeholder {
     font-style: italic;
 }
 
-.task-header {
+.task {
     background-color: #BA4949;
+}
+
+
+.task-header {
+    /*background-color: #BA4949;*/
     color: white;
     width: 400px;
     padding-left: 10px;
@@ -272,6 +329,10 @@ input::placeholder {
 }
 
 
+#task-shortBreak {
+    background-color: #38858A;
+}
+
 .task-list {
     list-style-type: none;
     padding-left: 10px;
@@ -303,7 +364,7 @@ input::placeholder {
     font-weight: bold;
     border: dotted 1px #EDD3D2;
     border-radius: 6px;
-    background-color: #AC4343;
+    /*background-color: #AC4343;*/
     width: 100%;
     height: 3vh;
 }
@@ -525,7 +586,7 @@ input::placeholder {
 }
 
 .main-box {
-    background-color: rgb(186, 73, 73);
+    /*background-color: #BA4949;*/
     min-height: 100vh;
     width: 466px;
     color: white;
@@ -536,7 +597,7 @@ input::placeholder {
 }
 
 .time-info {
-    background-color: #C15E5E;
+    /*background-color: #C15E5E;*/
     width: 446px;
     height: 3.6vh;
     margin-left: 10px;

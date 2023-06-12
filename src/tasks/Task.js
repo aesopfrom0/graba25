@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import ClearTask from './ClearTask';
 
-function Task({ tasks, onCurrentTask, onSetTasks, onTimeInfo }) {
+function Task({ tasks, onCurrentTask, onSetTasks, onTimeInfo, activeTab }) {
   const [showInput, setShotInput] = useState(false);
   const [currentTaskId, setCurrentTaskId] = useState(null);
   const [taskIdToShowDetail, setTaskIdToShowDetail] = useState(null);
@@ -15,13 +15,11 @@ function Task({ tasks, onCurrentTask, onSetTasks, onTimeInfo }) {
     if (tasks.length > 0 && !currentTaskId) {
       const curTask = tasks.find((task) => task.isCurrentTask) ?? tasks[0];
       GrabaApi.updateTask(curTask.id, { isCurrentTask: true }).then().catch(e => console.log(e));
-      console.log(curTask);
       curTask && setCurrentTaskId(curTask.id);
     }
   });
 
   useEffect(() => {
-    console.log(currentTaskId);
     onCurrentTask(tasks.find((task) => task.id === currentTaskId));
   }, [currentTaskId]);
 
@@ -166,7 +164,7 @@ function Task({ tasks, onCurrentTask, onSetTasks, onTimeInfo }) {
   }
 
   return (
-    <div className='task'>
+    <div className='task' id={`task-${activeTab}`}>
       <ActiveTask task={currentTaskId ? tasks.find((task) => task.id === currentTaskId) : null} />
       <header className='task-header'>
         <span>Tasks</span>

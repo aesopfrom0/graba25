@@ -10,6 +10,7 @@ function App() {
   const initialGivenSeconds = CLOCK_CONFIG.pomodoroIntervalSeconds;
   const [currentTask, setCurrentTask] = useState(null);
   const [tasks, setTasks] = useState([]);
+  const [activeTab, setActiveTab] = useState('pomodoro');
 
   const handleCurrentTask = (task) => {
     setCurrentTask(task);
@@ -71,24 +72,25 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className='App' id={`app-${activeTab}`}>
+      <header className='App-header'>
         {/*<img src={logo} className="App-logo" alt="logo" />*/}
         <p>GRABA 25</p>
-        <div className="main-box">
-          <Clock onTimeup={handleTimeUp} />
+        <div className='main-box'>
+          <Clock onTimeup={handleTimeUp} activeTab={activeTab} onSetActiveTab={setActiveTab} />
           <Task
             tasks={tasks}
             onCurrentTask={handleCurrentTask}
             onSetTasks={handleSetTasks}
             onTimeInfo={timeInfo()}
+            activeTab={activeTab}
           />
         </div>
         <a
-          className="App-link"
-          href="https://aesop.oopy.io"
-          target="_blank"
-          rel="noopener noreferrer"
+          className='App-link'
+          href='https://aesop.oopy.io'
+          target='_blank'
+          rel='noopener noreferrer'
         >
           개발자 블로그
         </a>

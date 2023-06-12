@@ -3,11 +3,11 @@ import { CLOCK_CONFIG } from '../config/dev-config';
 import clickSound from '../providers/sounds/click.mp3';
 import alarmSound from '../providers/sounds/alarm-01.mp3';
 
-function Clock({ onTimeup }) {
+function Clock({ onTimeup, activeTab, onSetActiveTab }) {
   const initialGivenSeconds = CLOCK_CONFIG.pomodoroIntervalSeconds;
+  const breakSeconds = CLOCK_CONFIG.breakSeconds;
   const [isStarted, setIsStarted] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(initialGivenSeconds);
-  const [activeTab, setActiveTab] = useState('pomodoro');
   const [showPopup, setShowPopup] = useState(false);
 
   let audioRef = useRef(null);
@@ -27,6 +27,7 @@ function Clock({ onTimeup }) {
     return () => clearInterval(timer);
   }, [isStarted, timeRemaining]);
 
+
   const playAudio = async (audioFile) => {
     audioRef.current = new Audio(audioFile);
     await audioRef.current.play();
@@ -44,15 +45,26 @@ function Clock({ onTimeup }) {
   };
 
   const handleTabClick = (tab) => {
-    setActiveTab(tab);
+    onSetActiveTab(tab);
   };
 
   const handleTimeUp = async () => {
-    setShowPopup(true);
-    await playAudio(alarmSound);
-    setTimeRemaining(initialGivenSeconds);
-    setIsStarted(!isStarted);
-    onTimeup();
+    switch (activeTab) {
+      case 'pomodoro':
+        setShowPopup(true);
+        await playAudio(alarmSound);
+        setTimeRemaining(initialGivenSeconds);
+        setIsStarted(!isStarted);
+        onTimeup();
+        // change active tab
+        onSetActiveTab('shortBreak');
+        break;
+      case 'shortBreak':
+        setTimeRemaining(breakSeconds);
+        setIsStarted(!isStarted);
+        // change active tab
+        onSetActiveTab('pomodoro');
+    }
   };
 
   const handleFastForward = async () => {
@@ -76,24 +88,24 @@ function Clock({ onTimeup }) {
   return (
     <div>
       {showPopup && (
-        <div className="popup">
+        <div className='popup'>
           <p>Time to take a break!</p>
-          <button className="confirm-button" onClick={handleConfirm}>
+          <button className='confirm-button' onClick={handleConfirm}>
             Ok
           </button>
         </div>
       )}
 
-      <div className="clock">
-        <header className="clock-header">
+      <div className={`clock-${activeTab}`}>
+        <header className='clock-header' id={`clock-header-${activeTab}`}>
           <a
-            className={activeTab === 'pomodoro' ? 'active' : ''}
+            className={activeTab === 'pomodoro' ? 'pomodoro' : ''}
             onClick={() => handleTabClick('pomodoro')}
           >
             Pomodoro{' '}
           </a>
           <a
-            className={activeTab === 'shortBreak' ? 'active' : ''}
+            className={activeTab === 'shortBreak' ? 'short-break' : ''}
             onClick={() => handleTabClick('shortBreak')}
           >
             Short Break{' '}
@@ -105,14 +117,15 @@ function Clock({ onTimeup }) {
             Long Break
           </a>
         </header>
-        <p className="clock-main">{formatTime(timeRemaining)}</p>
-        <div className="clock-action">
-          <button className="start-button" onClick={handleStart}>
-            <span className="start-button-text">{isStarted ? 'Pause' : 'Start'}</span>
+        <p className='clock-main'>{formatTime(timeRemaining)}</p>
+        <div className='clock-action'>
+          <button className='start-button' id={`start-button-${activeTab}`} onClick={handleStart}>
+            <span className='start-button-text'>{isStarted ? 'Pause' : 'Start'}</span>
             <span>{isStarted ? '🁢🁢' : '▶︎'}</span>
           </button>
           {isStarted && (
-            <button className="fast-forward-button-icon" onClick={handleFastForward}>
+            <button className='fast-forward-button-icon' id={`fast-forward-button-${activeTab}`}
+                    onClick={handleFastForward}>
               ⇥
             </button>
           )}
