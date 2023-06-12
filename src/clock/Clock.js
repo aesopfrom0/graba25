@@ -55,6 +55,13 @@ function Clock({ onTimeup }) {
     onTimeup();
   };
 
+  const handleFastForward = async () => {
+    await playAudio(clickSound);
+    setTimeRemaining(initialGivenSeconds);
+    setIsStarted(!isStarted);
+    onTimeup();
+  };
+
   const handleConfirm = () => {
     // Stop the alarm sound (you need to implement this logic)
     if (audioRef.current) {
@@ -69,16 +76,16 @@ function Clock({ onTimeup }) {
   return (
     <div>
       {showPopup && (
-        <div className='popup'>
+        <div className="popup">
           <p>Time to take a break!</p>
-          <button className='confirm-button' onClick={handleConfirm}>
+          <button className="confirm-button" onClick={handleConfirm}>
             Ok
           </button>
         </div>
       )}
 
-      <div className='clock'>
-        <header className='clock-header'>
+      <div className="clock">
+        <header className="clock-header">
           <a
             className={activeTab === 'pomodoro' ? 'active' : ''}
             onClick={() => handleTabClick('pomodoro')}
@@ -98,14 +105,14 @@ function Clock({ onTimeup }) {
             Long Break
           </a>
         </header>
-        <p className='clock-main'>{formatTime(timeRemaining)}</p>
-        <div className='clock-action'>
-          <button className='start-button' onClick={handleStart}>
-            <span className='start-button-text'>{isStarted ? 'Pause' : 'Start'}</span>
+        <p className="clock-main">{formatTime(timeRemaining)}</p>
+        <div className="clock-action">
+          <button className="start-button" onClick={handleStart}>
+            <span className="start-button-text">{isStarted ? 'Pause' : 'Start'}</span>
             <span>{isStarted ? '🁢🁢' : '▶︎'}</span>
           </button>
           {isStarted && (
-            <button className='fast-forward-button-icon' onClick={handleTimeUp}>
+            <button className="fast-forward-button-icon" onClick={handleFastForward}>
               ⇥
             </button>
           )}

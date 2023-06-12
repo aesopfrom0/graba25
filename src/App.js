@@ -22,6 +22,7 @@ function App() {
         return task.id === currentTask.id ? { ...task, actAttempts: task.actAttempts + 1 } : task;
       }),
     );
+    setCurrentTask({ ...currentTask, actAttempts: currentTask.actAttempts + 1 });
     await GrabaApi.updateTask(currentTask.id, { actAttempts: currentTask.actAttempts + 1 });
   };
 
@@ -52,10 +53,13 @@ function App() {
   }, []);
 
   const timeInfo = () => {
-    const pomosInfo = tasks.reduce((acc, cur) => ({
-      actPomos: acc.actPomos + cur.actAttempts,
-      estPomos: acc.estPomos + cur.estAttempts,
-    }), { actPomos: 0, estPomos: 0 });
+    const pomosInfo = tasks.reduce(
+      (acc, cur) => ({
+        actPomos: acc.actPomos + cur.actAttempts,
+        estPomos: acc.estPomos + cur.estAttempts,
+      }),
+      { actPomos: 0, estPomos: 0 },
+    );
     const duration = (pomosInfo.estPomos - pomosInfo.actPomos) * initialGivenSeconds * 1000; // milliseconds
     const estFinishAt = new Date(Date.now() + duration);
 
@@ -67,20 +71,24 @@ function App() {
   };
 
   return (
-    <div className='App'>
-      <header className='App-header'>
+    <div className="App">
+      <header className="App-header">
         {/*<img src={logo} className="App-logo" alt="logo" />*/}
         <p>GRABA 25</p>
-        <div className='main-box'>
+        <div className="main-box">
           <Clock onTimeup={handleTimeUp} />
-          <Task tasks={tasks} onCurrentTask={handleCurrentTask} onSetTasks={handleSetTasks}
-                onTimeInfo={timeInfo()} />
+          <Task
+            tasks={tasks}
+            onCurrentTask={handleCurrentTask}
+            onSetTasks={handleSetTasks}
+            onTimeInfo={timeInfo()}
+          />
         </div>
         <a
-          className='App-link'
-          href='https://aesop.oopy.io'
-          target='_blank'
-          rel='noopener noreferrer'
+          className="App-link"
+          href="https://aesop.oopy.io"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           개발자 블로그
         </a>
