@@ -24,7 +24,6 @@ export class GrabaApi {
 
   static async updateTask(taskId, updateDto) {
     console.log(`[updateTask] taskId: ${taskId}`);
-    console.log(updateDto);
     try {
       const result = await axios.patch(`${GRABA25_API_INFO.address}/tasks/${taskId}`, updateDto);
       return result;

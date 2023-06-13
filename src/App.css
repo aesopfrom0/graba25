@@ -466,14 +466,14 @@ input::placeholder {
     font-weight: bold;
 }
 
-.edit-task-box {
+.task-detail {
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 446px;
     height: 100%;
     background-color: #FFFFFF;
     border-radius: 8px;
-    padding: 0;
+    padding: 16px 0 0;
     box-shadow: 0 2px 6px #0000001a;
     color: black;
     font-size: 18px;
@@ -492,6 +492,13 @@ input::placeholder {
     font-size: 20px;
     border: none;
     margin-bottom: 12px;
+    width: 90%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.edit-task-box input[type='text']::placeholder {
+    color: #DFDFDF;
 }
 
 .edit-task-box > *:not(.edit-task-detail-action-bar) {
@@ -502,7 +509,8 @@ input::placeholder {
     font-weight: bold;
 }
 
-#act-est-pomodoros {
+#act-est-pomodoros,
+#est-pomodoros {
     font-size: 16px;
     margin-bottom: 0.5vh;
 }
@@ -512,14 +520,17 @@ input::placeholder {
 }
 
 .task-number-input-box input[type="number"] {
-    width: 48px; /* Adjust the width as desired */
-    height: 24px;
+    width: 36px; /* Adjust the width as desired */
+    height: 32px;
     font-size: 16px;
     font-weight: bold;
 }
 
 .task-number-input-box > .est-attempts-input-box {
-    color: #969696;
+    padding-left: 12px;
+    color: black;
+    background-color: #DFDFDF;
+    border: none;
 }
 
 
@@ -537,17 +548,19 @@ input::placeholder {
     /*
     If you want the .edit-task-detail-action-bar to fill the entire width of its container,
     */
-    width: 400px;
+    width: 100%;
     display: flex;
     align-items: center;
     margin: 0;
     padding: 0;
     height: 3vh;
     background-color: #DFDFDF;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 .edit-task-detail-action-bar button {
-    margin-left: 2vw;
+    margin-left: 3vw;
     border: none;
     height: 1.2vh;
     padding: 3px;
@@ -557,7 +570,7 @@ input::placeholder {
 }
 
 .edit-task-detail-action-bar > .cancel-btn {
-    margin-left: 12vw;
+    margin-left: 14vw;
 }
 
 /*.create-task-form input {*/

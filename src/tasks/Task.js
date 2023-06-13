@@ -14,7 +14,9 @@ function Task({ tasks, onCurrentTask, onSetTasks, onTimeInfo, activeTab }) {
   useEffect(() => {
     if (tasks.length > 0 && !currentTaskId) {
       const curTask = tasks.find((task) => task.isCurrentTask) ?? tasks[0];
-      GrabaApi.updateTask(curTask.id, { isCurrentTask: true }).then().catch(e => console.log(e));
+      GrabaApi.updateTask(curTask.id, { isCurrentTask: true })
+        .then()
+        .catch((e) => console.log(e));
       curTask && setCurrentTaskId(curTask.id);
     }
   });
@@ -142,15 +144,19 @@ function Task({ tasks, onCurrentTask, onSetTasks, onTimeInfo, activeTab }) {
     console.log(`isFinished: ${isFinished}`);
     const newTasks = isFinished
       ? tasks.map((task) => {
-        return task.isFinished ? { ...task, isArchived: true } : task;
-      })
+          return task.isFinished ? { ...task, isArchived: true } : task;
+        })
       : tasks.map((task) => ({ ...task, isArchived: true }));
     const tasksToBeShown = [];
     const tasksToBeArchived = [];
     newTasks.forEach((task) => {
       if (task.isArchived) {
         if (task.isCurrentTask) {
-          tasksToBeArchived.push({ id: task.id, isArchived: task.isArchived, isCurrentTask: false });
+          tasksToBeArchived.push({
+            id: task.id,
+            isArchived: task.isArchived,
+            isCurrentTask: false,
+          });
         } else {
           tasksToBeArchived.push({ id: task.id, isArchived: task.isArchived });
         }
@@ -163,15 +169,19 @@ function Task({ tasks, onCurrentTask, onSetTasks, onTimeInfo, activeTab }) {
     await GrabaApi.archiveTasks(tasksToBeArchived);
   }
 
+  async function handleCancelAddingTask() {
+    setShotInput(!setShotInput);
+  }
+
   return (
-    <div className='task' id={`task-${activeTab}`}>
+    <div className="task" id={`task-${activeTab}`}>
       <ActiveTask task={currentTaskId ? tasks.find((task) => task.id === currentTaskId) : null} />
-      <header className='task-header'>
+      <header className="task-header">
         <span>Tasks</span>
         <ClearTask onArchive={archiveTasks} />
       </header>
       <hr />
-      <ul className='task-list'>
+      <ul className="task-list">
         {tasks.map((task) => {
           return task.id === taskIdToShowDetail ? (
             <TaskDetail
@@ -195,16 +205,16 @@ function Task({ tasks, onCurrentTask, onSetTasks, onTimeInfo, activeTab }) {
               >
                 {task.isFinished ? '✔️' : ''}
               </div>
-              <div className='task-info'>
+              <div className="task-info">
                 <span>
                   {task.title.length > 36 ? task.title.slice(0, 36).concat('...') : task.title}{' '}
                 </span>
-                <div className='attempts-number'>
+                <div className="attempts-number">
                   {task.actAttempts}/{task.estAttempts}
                 </div>
               </div>
               <button
-                className='toolbox-button'
+                className="toolbox-button"
                 onClick={(event) => handleShowTaskDetail(task.id, event)}
               >
                 <FontAwesomeIcon icon={faEllipsisV} />
@@ -212,27 +222,46 @@ function Task({ tasks, onCurrentTask, onSetTasks, onTimeInfo, activeTab }) {
             </li>
           );
         })}
-        <button className='add-task-btn' onClick={addTask}>
-          ➕ Add Task
-        </button>
+        {showInput ? (
+          <div className="task-detail">
+            <form className="edit-task-box" onSubmit={(event) => handleInputSubmit(event)}>
+              <input type="text" name="title" placeholder="What are you working on?" />
+              <br />
+              <p id="est-pomodoros">Est Pomodoros</p>
+              <div className="task-number-input-box">
+                <input
+                  type="number"
+                  className="est-attempts-input-box"
+                  name="est-attempts"
+                  defaultValue="1"
+                />
+              </div>
+              <br />
+              <div className="edit-task-detail-action-bar">
+                <button className="delete-btn"></button>
+                <button className="cancel-btn" onClick={handleCancelAddingTask}>
+                  Cancel
+                </button>
+                <button className="save-btn" type="submit">
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        ) : (
+          <button className="add-task-btn" onClick={addTask}>
+            ➕ Add Task
+          </button>
+        )}
       </ul>
-      {showInput && (
-        <form className='edit-task-box' onSubmit={(event) => handleInputSubmit(event)}>
-          <input type='text' name='title' placeholder='What are you working on?' />
-          <br />
-          <input type='number' name='est-attempts' defaultValue='1' />
-          <br />
-          <button type='submit'>Save</button>
-        </form>
-      )}
-      <div className='time-info'>
+      <div className="time-info">
         <div>
           <span>Pomos: </span>
-          <span className='number'>{onTimeInfo.actAttempts ?? 0}</span>
+          <span className="number">{onTimeInfo.actAttempts ?? 0}</span>
           <span>/</span>
-          <span className='number'>{onTimeInfo.estAttempts ?? 0}</span>
+          <span className="number">{onTimeInfo.estAttempts ?? 0}</span>
           <span>Finish At: </span>
-          <span className='number'>{onTimeInfo.estFinishAt ?? '--:--'}</span>
+          <span className="number">{onTimeInfo.estFinishAt ?? '--:--'}</span>
           <span>{onTimeInfo.duration ?? '(0h)'}</span>
         </div>
       </div>
