@@ -362,11 +362,13 @@ input::placeholder {
     font-family: "Apple SD Gothic Neo";
     color: #EDD3D2;
     font-weight: bold;
-    border: dotted 1px #EDD3D2;
     border-radius: 6px;
     /*background-color: #AC4343;*/
     width: 100%;
     height: 3vh;
+    border: 2px dashed #EDD3D2;
+    opacity: 0.8;
+    background-color: #BA4949;
 }
 
 .add-task-btn:hover {
