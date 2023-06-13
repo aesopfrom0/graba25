@@ -249,7 +249,7 @@ function Task({ tasks, onCurrentTask, onSetTasks, onTimeInfo, activeTab }) {
             </form>
           </div>
         ) : (
-          <button className="add-task-btn" onClick={addTask}>
+          <button className="add-task-btn" id={`add-task-btn-${activeTab}`} onClick={addTask}>
             ➕ Add Task
           </button>
         )}

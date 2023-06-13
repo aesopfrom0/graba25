@@ -374,7 +374,10 @@ input::placeholder {
 .add-task-btn:hover {
     background-color: #a75252;
     color: #d8d8d8;
+}
 
+#add-task-btn-shortBreak {
+    background-color: #3F7578;
 }
 
 .task-item.finished span {
