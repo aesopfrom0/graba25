@@ -66,17 +66,20 @@ function App() {
 
     return {
       ...pomosInfo,
-      estFinishAt: `${estFinishAt.getHours()}:${estFinishAt.getMinutes()}`,
+      estFinishAt: `${estFinishAt.getHours()}:${estFinishAt
+        .getMinutes()
+        .toString()
+        .padStart(2, '0')}`,
       duration: `(${(duration / (1000 * 60 * 60)).toFixed(1)}h)`,
     };
   };
 
   return (
-    <div className='App' id={`app-${activeTab}`}>
-      <header className='App-header'>
+    <div className="App" id={`app-${activeTab}`}>
+      <header className="App-header">
         {/*<img src={logo} className="App-logo" alt="logo" />*/}
         <p>GRABA 25</p>
-        <div className='main-box'>
+        <div className="main-box">
           <Clock onTimeup={handleTimeUp} activeTab={activeTab} onSetActiveTab={setActiveTab} />
           <Task
             tasks={tasks}
@@ -87,10 +90,10 @@ function App() {
           />
         </div>
         <a
-          className='App-link'
-          href='https://aesop.oopy.io'
-          target='_blank'
-          rel='noopener noreferrer'
+          className="App-link"
+          href="https://aesop.oopy.io"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           개발자 블로그
         </a>
