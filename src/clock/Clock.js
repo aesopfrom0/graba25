@@ -12,6 +12,11 @@ function Clock({ onTimeup, activeTab, onSetActiveTab }) {
 
   let audioRef = useRef(null);
 
+  const playAudio = async (audioFile) => {
+    audioRef.current = new Audio(audioFile);
+    await audioRef.current.play();
+  };
+
   useEffect(() => {
     let timer;
     if (isStarted && timeRemaining > 0) {
@@ -20,18 +25,37 @@ function Clock({ onTimeup, activeTab, onSetActiveTab }) {
       }, 1000);
     }
 
-    if (timeRemaining === 0) {
-      handleTimeUp();
-    }
-
     return () => clearInterval(timer);
   }, [isStarted, timeRemaining]);
 
+  useEffect(() => {
+    if (timeRemaining === 0) {
+      switch (activeTab) {
+        case 'pomodoro':
+          setShowPopup(true);
+          playAudio(alarmSound).then();
+          setIsStarted(!isStarted);
+          onTimeup();
+          // change active tab
+          onSetActiveTab('shortBreak');
+          break;
+        case 'shortBreak':
+          setIsStarted(!isStarted);
+          // change active tab
+          onSetActiveTab('pomodoro');
+      }
+    }
+  }, [timeRemaining])
 
-  const playAudio = async (audioFile) => {
-    audioRef.current = new Audio(audioFile);
-    await audioRef.current.play();
-  };
+  useEffect(() => {
+    switch (activeTab) {
+      case 'pomodoro':
+        setTimeRemaining(initialGivenSeconds);
+        break;
+      case 'shortBreak':
+        setTimeRemaining(breakSeconds);
+    }
+  }, [activeTab]);
 
   const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
