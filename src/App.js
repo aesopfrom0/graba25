@@ -5,12 +5,17 @@ import { GrabaApi } from './api/Graba-api';
 import { useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 import { CLOCK_CONFIG } from './config/dev-config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import Login from './user/Login';
 
 function App() {
   const initialGivenSeconds = CLOCK_CONFIG.pomodoroIntervalSeconds;
   const [currentTask, setCurrentTask] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [activeTab, setActiveTab] = useState('pomodoro');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
   const handleCurrentTask = (task) => {
     setCurrentTask(task);
@@ -74,30 +79,43 @@ function App() {
     };
   };
 
+  const handleLogin = () => {
+    setShowLogin(!showLogin);
+  };
+
   return (
-    <div className="App" id={`app-${activeTab}`}>
-      <header className="App-header">
-        {/*<img src={logo} className="App-logo" alt="logo" />*/}
-        <p>GRABA 25</p>
-        <div className="main-box">
-          <Clock onTimeup={handleTimeUp} activeTab={activeTab} onSetActiveTab={setActiveTab} />
-          <Task
-            tasks={tasks}
-            onCurrentTask={handleCurrentTask}
-            onSetTasks={handleSetTasks}
-            onTimeInfo={timeInfo()}
-            activeTab={activeTab}
-          />
-        </div>
-        <a
-          className="App-link"
-          href="https://aesop.oopy.io"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          개발자 블로그
-        </a>
-      </header>
+    <div className='App' id={`app-${activeTab}`}>
+      {showLogin ? (<Login />) :
+        (<div>
+            <header className='app-header'>
+              {/*<img src={logo} className="App-logo" alt="logo" />*/}
+              <div>
+                <p>GRABA 25</p>
+              </div>
+              <div onClick={handleLogin}>
+                {isLoggedIn ? (<p>Logged In!</p>) : (<p><FontAwesomeIcon icon={faUser} size='sm' /> Login</p>)}
+              </div>
+            </header>
+            <div className='main-box'>
+              <Clock onTimeup={handleTimeUp} activeTab={activeTab} onSetActiveTab={setActiveTab} />
+              <Task
+                tasks={tasks}
+                onCurrentTask={handleCurrentTask}
+                onSetTasks={handleSetTasks}
+                onTimeInfo={timeInfo()}
+                activeTab={activeTab}
+              />
+            </div>
+            <a
+              className='App-link'
+              href='https://aesop.oopy.io'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              개발자 블로그
+            </a>
+          </div>
+        )}
     </div>
   );
 }
