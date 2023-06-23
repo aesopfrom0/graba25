@@ -1,4 +1,4 @@
-import { GRABA25_API_INFO } from '../config/dev-config';
+import { GRABA25_API_INFO } from '../config/config';
 import axios from 'axios';
 
 export class GrabaApi {
