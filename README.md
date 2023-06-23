@@ -1,4 +1,5 @@
 # 프로젝트 설명
+<img width="1101" alt="스크린샷 2023-06-23 15 27 03" src="https://github.com/aesopfrom0/graba25/assets/72098049/4b6caeba-0fd3-44dd-a611-19f5b13a5bc6">
 
 - [pomofocus.io](http://pomofocus.io)를 클로닝한 Pomodoro 시간관리 앱입니다.
 - 사용자가 작업에 집중하고 효율적으로 시간을 관리할 수 있도록 도와줍니다.
