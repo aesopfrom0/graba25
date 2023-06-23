@@ -25,3 +25,4 @@ yarn-error.log*
 .idea/
 
 *config.js
+!example-config.js
