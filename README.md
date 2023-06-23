@@ -21,7 +21,7 @@
     
     ```jsx
     export const GRABA25_API_INFO = {
-      address: 'http://localhost:4000', // GRABA-API PORT
+      address: 'http://localhost:{PORT}', // GRABA-API PORT로 수정 필요
     };
     
     export const CLOCK_CONFIG = {
