@@ -39,3 +39,10 @@
     ```
     
 6. 브라우저에서 http://localhost:3000 오픈
+
+
+#백로그
+- 로그인 기능
+- Long Break 탭 전환
+- 시간 interval 기록
+- task별 투입 시간 분석
