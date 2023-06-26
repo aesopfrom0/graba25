@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { CLOCK_CONFIG } from '../config/dev-config';
+import { CLOCK_CONFIG } from '../config/config';
 import clickSound from '../providers/sounds/click.mp3';
 import alarmSound from '../providers/sounds/alarm-01.mp3';
 
@@ -45,7 +45,7 @@ function Clock({ onTimeup, activeTab, onSetActiveTab }) {
           onSetActiveTab('pomodoro');
       }
     }
-  }, [timeRemaining])
+  }, [timeRemaining]);
 
   useEffect(() => {
     switch (activeTab) {
@@ -112,16 +112,16 @@ function Clock({ onTimeup, activeTab, onSetActiveTab }) {
   return (
     <div>
       {showPopup && (
-        <div className='popup'>
+        <div className="popup">
           <p>Time to take a break!</p>
-          <button className='confirm-button' onClick={handleConfirm}>
+          <button className="confirm-button" onClick={handleConfirm}>
             Ok
           </button>
         </div>
       )}
 
       <div className={`clock-${activeTab}`}>
-        <header className='clock-header' id={`clock-header-${activeTab}`}>
+        <header className="clock-header" id={`clock-header-${activeTab}`}>
           <a
             className={activeTab === 'pomodoro' ? 'pomodoro' : ''}
             onClick={() => handleTabClick('pomodoro')}
@@ -141,15 +141,18 @@ function Clock({ onTimeup, activeTab, onSetActiveTab }) {
             Long Break
           </a>
         </header>
-        <p className='clock-main'>{formatTime(timeRemaining)}</p>
-        <div className='clock-action'>
-          <button className='start-button' id={`start-button-${activeTab}`} onClick={handleStart}>
-            <span className='start-button-text'>{isStarted ? 'Pause' : 'Start'}</span>
+        <p className="clock-main">{formatTime(timeRemaining)}</p>
+        <div className="clock-action">
+          <button className="start-button" id={`start-button-${activeTab}`} onClick={handleStart}>
+            <span className="start-button-text">{isStarted ? 'Pause' : 'Start'}</span>
             <span>{isStarted ? '🁢🁢' : '▶︎'}</span>
           </button>
           {isStarted && (
-            <button className='fast-forward-button-icon' id={`fast-forward-button-${activeTab}`}
-                    onClick={handleFastForward}>
+            <button
+              className="fast-forward-button-icon"
+              id={`fast-forward-button-${activeTab}`}
+              onClick={handleFastForward}
+            >
               ⇥
             </button>
           )}
