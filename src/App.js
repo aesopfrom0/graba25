@@ -89,7 +89,7 @@ function App() {
         <Login />
       ) : (
         <div>
-          <header className="app-header">
+          <header className="app-header" id={`app-header-${activeTab}`}>
             {/*<img src={logo} className="App-logo" alt="logo" />*/}
             <div>
               <p>GRABA 25</p>
